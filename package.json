@@ -1,0 +1,31 @@
+{
+  "name": "poc-mvc-produtos",
+  "version": "1.0.0",
+  "description": "Prova de Conceito (PoC) sobre o Padrão Arquitetural MVC - Cadastro de Produtos",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "server": "node src/server.js",
+    "test": "node scripts/test-model.js",
+    "test:model": "node scripts/test-model.js",
+    "test:demo": "node scripts/test-demo-flow.js",
+    "seed": "node scripts/seed.js"
+  },
+  "keywords": [
+    "mvc",
+    "model",
+    "view",
+    "controller",
+    "sqlite",
+    "express",
+    "ejs",
+    "poc"
+  ],
+  "author": "Grupo MVC (André Luis, João André e equipe)",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  }
+}

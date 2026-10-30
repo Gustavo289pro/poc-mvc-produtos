@@ -1,0 +1,93 @@
+<%- include('../layout/header') %>
+
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <a href="/produtos" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left"></i> Voltar ao Catálogo
+      </a>
+      <span class="badge bg-success"><i class="bi bi-window"></i> View: new.ejs</span>
+    </div>
+
+    <!-- Alerta de Erros Disparados pelo Model -->
+    <% if (errors && errors.length > 0) { %>
+      <div class="alert alert-danger shadow-sm" role="alert">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <i class="bi bi-shield-x fs-4"></i>
+          <strong>Falha de Validação interceptada pelo Model:</strong>
+        </div>
+        <ul class="mb-0 ps-3">
+          <% errors.forEach(err => { %>
+            <li><%= err %></li>
+          <% }) %>
+        </ul>
+      </div>
+    <% } %>
+
+    <div class="card border-0 shadow-sm bg-white">
+      <div class="card-header bg-white border-bottom py-3">
+        <h5 class="card-title mb-0 fw-bold text-dark">
+          <i class="bi bi-plus-circle text-success me-2"></i>Cadastrar Novo Produto
+        </h5>
+        <small class="text-muted">
+          Preencha os campos abaixo. Ao submeter, o <strong>Controller</strong> enviará os dados para a camada <strong>Model</strong> validar e persistir no SQLite.
+        </small>
+      </div>
+
+      <div class="card-body p-4">
+        <form action="/produtos" method="POST">
+          <div class="row g-3">
+            <div class="col-md-8">
+              <label for="nome" class="form-label fw-bold small text-secondary">Nome do Produto *</label>
+              <input type="text" class="form-control" id="nome" name="nome" value="<%= produto.nome || '' %>" placeholder="Ex: Notebook Dell Inspiron" required>
+              <div class="form-text small">Regra do Model: Obrigatório e com no mínimo 2 caracteres.</div>
+            </div>
+
+            <div class="col-md-4">
+              <label for="categoria" class="form-label fw-bold small text-secondary">Categoria</label>
+              <select class="form-select" id="categoria" name="categoria">
+                <option value="Eletrônicos" <%= produto.categoria === 'Eletrônicos' ? 'selected' : '' %>>Eletrônicos</option>
+                <option value="Periféricos" <%= produto.categoria === 'Periféricos' ? 'selected' : '' %>>Periféricos</option>
+                <option value="Monitores" <%= produto.categoria === 'Monitores' ? 'selected' : '' %>>Monitores</option>
+                <option value="Áudio" <%= produto.categoria === 'Áudio' ? 'selected' : '' %>>Áudio</option>
+                <option value="Mobiliário" <%= produto.categoria === 'Mobiliário' ? 'selected' : '' %>>Mobiliário</option>
+                <option value="Geral" <%= !produto.categoria || produto.categoria === 'Geral' ? 'selected' : '' %>>Geral</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label for="preco" class="form-label fw-bold small text-secondary">Preço Unitário (R$) *</label>
+              <div class="input-group">
+                <span class="input-group-text">R$</span>
+                <input type="number" step="0.01" class="form-control" id="preco" name="preco" value="<%= produto.preco || '' %>" placeholder="0.00" required>
+              </div>
+              <div class="form-text small">Regra do Model: Deve ser um número estritamente positivo (> 0).</div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="quantidade_estoque" class="form-label fw-bold small text-secondary">Quantidade em Estoque *</label>
+              <input type="number" class="form-control" id="quantidade_estoque" name="quantidade_estoque" value="<%= produto.quantidade_estoque !== undefined ? produto.quantidade_estoque : 0 %>" min="0" required>
+              <div class="form-text small">Regra do Model: Inteiro maior ou igual a zero (>= 0).</div>
+            </div>
+
+            <div class="col-12">
+              <label for="descricao" class="form-label fw-bold small text-secondary">Descrição Detalhada</label>
+              <textarea class="form-control" id="descricao" name="descricao" rows="3" placeholder="Especificações técnicas, modelo ou informações complementares..."><%= produto.descricao || '' %></textarea>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+            <a href="/produtos" class="btn btn-light">Cancelar</a>
+            <button type="submit" class="btn btn-success px-4">
+              <i class="bi bi-check-lg"></i> Salvar Produto no Model
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<%- include('../layout/footer') %>

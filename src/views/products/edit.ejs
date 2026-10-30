@@ -1,0 +1,99 @@
+<%- include('../layout/header') %>
+
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <a href="/produtos" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left"></i> Voltar ao Catálogo
+      </a>
+      <span class="badge bg-warning text-dark"><i class="bi bi-gear-wide-connected"></i> View: edit.ejs</span>
+    </div>
+
+    <!-- Banner Pedagógico da Demonstração Prática do MVC -->
+    <div class="card border-0 bg-primary bg-opacity-10 mb-4 border-start border-primary border-4 shadow-sm">
+      <div class="card-body">
+        <h6 class="fw-bold text-primary mb-1">
+          <i class="bi bi-magic me-1"></i> Demonstração da Sincronização dos Dados no MVC
+        </h6>
+        <p class="text-secondary small mb-0">
+          Altere o <strong>Preço</strong> ou o <strong>Estoque</strong> abaixo. Ao clicar em salvar, o <strong>Controller</strong> atualizará o <strong>Model</strong> no SQLite e a nova informação será imediatamente refletida na <strong>View</strong>!
+        </p>
+      </div>
+    </div>
+
+    <!-- Alerta de Erros do Model -->
+    <% if (errors && errors.length > 0) { %>
+      <div class="alert alert-danger shadow-sm" role="alert">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <i class="bi bi-shield-x fs-4"></i>
+          <strong>Falha de Validação interceptada pelo Model:</strong>
+        </div>
+        <ul class="mb-0 ps-3">
+          <% errors.forEach(err => { %>
+            <li><%= err %></li>
+          <% }) %>
+        </ul>
+      </div>
+    <% } %>
+
+    <div class="card border-0 shadow-sm bg-white">
+      <div class="card-header bg-white border-bottom py-3">
+        <h5 class="card-title mb-0 fw-bold text-dark">
+          <i class="bi bi-pencil-square text-warning me-2"></i>Editar Produto #<%= produto.id %>
+        </h5>
+      </div>
+
+      <div class="card-body p-4">
+        <form action="/produtos/<%= produto.id %>/editar" method="POST">
+          <div class="row g-3">
+            <div class="col-md-8">
+              <label for="nome" class="form-label fw-bold small text-secondary">Nome do Produto *</label>
+              <input type="text" class="form-control" id="nome" name="nome" value="<%= produto.nome %>" required>
+            </div>
+
+            <div class="col-md-4">
+              <label for="categoria" class="form-label fw-bold small text-secondary">Categoria</label>
+              <select class="form-select" id="categoria" name="categoria">
+                <option value="Eletrônicos" <%= produto.categoria === 'Eletrônicos' ? 'selected' : '' %>>Eletrônicos</option>
+                <option value="Periféricos" <%= produto.categoria === 'Periféricos' ? 'selected' : '' %>>Periféricos</option>
+                <option value="Monitores" <%= produto.categoria === 'Monitores' ? 'selected' : '' %>>Monitores</option>
+                <option value="Áudio" <%= produto.categoria === 'Áudio' ? 'selected' : '' %>>Áudio</option>
+                <option value="Mobiliário" <%= produto.categoria === 'Mobiliário' ? 'selected' : '' %>>Mobiliário</option>
+                <option value="Geral" <%= produto.categoria === 'Geral' ? 'selected' : '' %>>Geral</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label for="preco" class="form-label fw-bold small text-secondary">Preço Unitário (R$) *</label>
+              <div class="input-group">
+                <span class="input-group-text">R$</span>
+                <input type="number" step="0.01" class="form-control" id="preco" name="preco" value="<%= produto.preco %>" required>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="quantidade_estoque" class="form-label fw-bold small text-secondary">Quantidade em Estoque *</label>
+              <input type="number" class="form-control" id="quantidade_estoque" name="quantidade_estoque" value="<%= produto.quantidade_estoque %>" min="0" required>
+            </div>
+
+            <div class="col-12">
+              <label for="descricao" class="form-label fw-bold small text-secondary">Descrição</label>
+              <textarea class="form-control" id="descricao" name="descricao" rows="3"><%= produto.descricao || '' %></textarea>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+            <a href="/produtos" class="btn btn-light">Cancelar</a>
+            <button type="submit" class="btn btn-warning px-4 text-dark fw-bold">
+              <i class="bi bi-arrow-repeat"></i> Atualizar Dados no Model
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<%- include('../layout/footer') %>
